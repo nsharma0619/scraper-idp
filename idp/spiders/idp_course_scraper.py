@@ -81,7 +81,7 @@ class IdpCourseScraperSpider(scrapy.Spider):
             
 process = CrawlerProcess(settings={
     "FEEDS": {
-        "items.json": {"format": "json"},
+        "items.csv": {"format": "csv"},
     },
 })
 
