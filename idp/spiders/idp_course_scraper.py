@@ -13,8 +13,8 @@ class IdpCourseScraperSpider(scrapy.Spider):
 
     def parse(self, response):
         cards = response.xpath("//ul[@class='product__listing product__list']/li")
+        area_study = response.request.meta['area_study']
         for card in cards:
-            area_study = response.request.meta['area_study']
             try:
                 course_name = card.xpath(".//div[@class='prd_inner_cont']/h2/a/text()").get().strip('\n')
             except:
@@ -34,7 +34,7 @@ class IdpCourseScraperSpider(scrapy.Spider):
         next_page = response.xpath("//li[@class='pagination-next']/a[@class='glyphicon glyphicon-chevron-right']/@href").get()
         if next_page:
             print('i am running')
-            yield  response.follow(url = next_page, callback=self.parse)
+            yield  response.follow(url = next_page, callback=self.parse, meta={'area_study' : 'accounting'})
 
     def parse_course(self, response):
         meta = response.request.meta
