@@ -32,9 +32,9 @@ class IdpCourseScraperSpider(scrapy.Spider):
             yield response.follow(url=course_link, callback=self.parse_course, meta={'area_study' : area_study,'course_name' : course_name,'university_name' : university_name,'course_fee' : course_fee,'course_link' : course_link})
         
         next_page = response.xpath("//li[@class='pagination-next']/a[@class='glyphicon glyphicon-chevron-right']/@href").get()
-        # if next_page:
-        #     print('i am running')
-        #     yield  response.follow(url = next_page, callback=self.parse)
+        if next_page:
+            print('i am running')
+            yield  response.follow(url = next_page, callback=self.parse)
 
     def parse_course(self, response):
         meta = response.request.meta
