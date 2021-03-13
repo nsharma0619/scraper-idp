@@ -1,20 +1,16 @@
 import scrapy
 from bs4 import BeautifulSoup
-from scrapy.crawler import CrawlerProcess
 
 
 class IdpCourseScraperSpider(scrapy.Spider):
     name = 'idp_course_scraper'
     allowed_domains = ['www.idp.com']
-    # start_urls = ['https://www.idp.com/global/search/all-accounting/']
-
-    def start_requests(self):
-        yield scrapy.Request('https://www.idp.com/global/search/all-accounting/', self.parse, meta={'area_study' : 'accounting'})
+    start_urls = ['https://www.idp.com/global/search/all-accounting/']
 
     def parse(self, response):
         cards = response.xpath("//ul[@class='product__listing product__list']/li")
         for card in cards:
-            area_study = response.request.meta['area_study']
+            area_study = 'accounting'
             try:
                 course_name = card.xpath(".//div[@class='prd_inner_cont']/h2/a/text()").get().strip('\n')
             except:
@@ -32,9 +28,9 @@ class IdpCourseScraperSpider(scrapy.Spider):
             yield response.follow(url=course_link, callback=self.parse_course, meta={'area_study' : area_study,'course_name' : course_name,'university_name' : university_name,'course_fee' : course_fee,'course_link' : course_link})
         
         next_page = response.xpath("//li[@class='pagination-next']/a[@class='glyphicon glyphicon-chevron-right']/@href").get()
-        # if next_page:
-        #     print('i am running')
-        #     yield  response.follow(url = next_page, callback=self.parse)
+        if next_page:
+            print('i am running')
+            yield  response.follow(url = next_page, callback=self.parse)
 
     def parse_course(self, response):
         meta = response.request.meta
@@ -79,12 +75,4 @@ class IdpCourseScraperSpider(scrapy.Spider):
             'intakes' : month
         }
             
-process = CrawlerProcess(settings={
-    "FEEDS": {
-        "items.json": {"format": "json"},
-    },
-})
-
-process.crawl(IdpCourseScraperSpider)
-process.start()
 

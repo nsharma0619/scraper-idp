@@ -1,0 +1,13 @@
+setup.py
+idp/__init__.py
+idp/items.py
+idp/middlewares.py
+idp/pipelines.py
+idp/settings.py
+idp/spiders/__init__.py
+idp/spiders/idp_course_scraper.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
