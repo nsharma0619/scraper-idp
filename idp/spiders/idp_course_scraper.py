@@ -9,7 +9,9 @@ class IdpCourseScraperSpider(scrapy.Spider):
     # start_urls = ['https://www.idp.com/global/search/all-accounting/']
 
     def start_requests(self):
-        yield scrapy.Request('https://www.idp.com/global/search/all-accounting/', self.parse, meta={'area_study' : 'accounting'})
+        yield scrapy.Request('https://www.idp.com/global/search/agriculture-sciences/', self.parse, meta={'area_study' : 'agriculture-sciences'})
+        yield scrapy.Request('https://www.idp.com/global/search/art-and-design/', self.parse, meta={'area_study' : 'art-and-design'})
+        yield scrapy.Request('https://www.idp.com/global/search/biological-and-life-sciences/', self.parse, meta={'area_study' : 'biological-and-life-sciences'})
 
     def parse(self, response):
         cards = response.xpath("//ul[@class='product__listing product__list']/li")
